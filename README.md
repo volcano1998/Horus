@@ -1,6 +1,8 @@
 # :milky_way: Horus :eagle: 
 image CVD accessibility evaluation tool
 
+<p align="center"><img src="https://user-images.githubusercontent.com/54039319/227108539-a617f095-de0a-4cbf-b6cb-439a4fd0f489.png" /></p>
+
 
 ## Installation
 
