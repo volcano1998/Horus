@@ -1,7 +1,9 @@
 # :milky_way: Horus :eagle: 
 Horus is a model-based evaluation tool for image CVD accessibility.
 
-<p align="center"><img src="https://user-images.githubusercontent.com/54039319/227109468-bbafbd45-9292-4e73-9cbd-c835b2f11f9f.png" /></p>
+<p align="center"><a title="HSCirkel.svg by Jsdo1980
+Eye of Horus bw.svg by Jeff Dahl
+derivative work Tpt, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:HSEyeOfHorus.svg"><img width="128" alt="HSEyeOfHorus" src="https://user-images.githubusercontent.com/54039319/227109468-bbafbd45-9292-4e73-9cbd-c835b2f11f9f.png"></a></p>
 
 ## Installation
 
@@ -50,6 +52,8 @@ sample_cb.pdf	key colors from simulated image
 sample_cb.csv key colors in RGB format from simulated image
 ```
 The whole evaluation procedure takes about 13 seconds per picture.
+
+
 
 
 
