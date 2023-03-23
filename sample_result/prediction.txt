@@ -1,0 +1,1 @@
+Input image sample.jpeg is not CVD friendly
