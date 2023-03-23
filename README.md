@@ -1,25 +1,24 @@
-# Horus
+# :milky_way: Horus :eagle: 
 image CVD accessibility evaluation tool
 
 
 ## Installation
 
 you need to have a python3 (>=3.7) environment. You should have below packages installed.
-
+```
 numpy
 matplotlib
 pandas
-tqdm
 PIL
 sklearn
 statistics
 scipy
 opencv-python
-
+```
 You will also need to clone this github repo.
-
-git clone 
-
+```
+git clone https://github.com/volcano1998/Horus.git
+```
 ## Usage
 
 The pipeline Horus.py needs 3 arguments as input
