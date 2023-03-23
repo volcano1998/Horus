@@ -1,7 +1,8 @@
 # :milky_way: Horus :eagle: 
-image CVD accessibility evaluation tool
+Horus is a model-based evaluation tool for image CVD accessibility.
 
-<p align="center"><img src="https://user-images.githubusercontent.com/54039319/227108539-a617f095-de0a-4cbf-b6cb-439a4fd0f489.png" /></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/54039319/227109468-bbafbd45-9292-4e73-9cbd-c835b2f11f9f.png" /></p>
+
 
 
 ## Installation
