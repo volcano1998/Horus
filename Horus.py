@@ -11,15 +11,16 @@ from cv2 import COLOR_RGB2Luv
 import cv2
 import pickle
 from argparse import ArgumentParser
+
 parser = ArgumentParser(description="",usage='use "python3 %(prog)s --help" for more information')
 parser.add_argument('--img_path','-i')
 parser.add_argument('--output_dir','-o')
 parser.add_argument('--model_file','-m', help = "pretrained model file")
 args = parser.parse_args()
+
 img_path = args.img_path
 output_dir = args.output_dir
 model_file = args.model_file
-
 
 def pairwise_dist(Y):
     dc = {}
@@ -48,14 +49,10 @@ transform_protanopia = T_inv * S_protanopia * T
 
 T_protanopia = S_protanopia * T 
 
-
-
 def transform_color(color, axis = -1):
-    # print(color)
     x = transform_protanopia * np.matrix(color).T
     x = list(np.array(x.flatten())[0,:])
     return x
-
 
 def color_blind_converter(img_path):
     initial_img = Image.open(img_path)
@@ -92,15 +89,14 @@ def extract_key_colors(img_path,prefix,output_dir,k):
     X = np.array(initial_img).flatten()
     X = X.astype('int32').reshape(int(len(X)/3),3)
 
-
     c = sklearn.cluster.KMeans(k, random_state=0)
-
     clusters = c.fit(X)
 
     colors = c.cluster_centers_
     dc_cnt = Counter(c.labels_)
     count_list = [dc_cnt[i]   for i in range(k)]
     colors_bl =[transform_color(x) for x in colors]
+
     def plot_colors(colors,output_dir,prefix):
 
         n = len(colors)
@@ -120,10 +116,7 @@ def extract_key_colors(img_path,prefix,output_dir,k):
     df2.to_csv(output_dir+'/'+prefix+'_cb.csv')
     return 
 
-
-
 def load_rgb_luv(img_path):
-
     initial_img = Image.open(img_path)
     initial_img.load()
     rgb1 = np.array(initial_img,'float32')/255  ### opensv takes rgb 0-1
@@ -132,12 +125,14 @@ def load_rgb_luv(img_path):
     return rgb1,luv1
 
 def normalize_max_min(arr):
+    '''
+    Normalizes arr values to [0, 1]
+    '''
     arr = np.array(arr)
     arr = (arr - arr.min())/(arr.max()-arr.min())
     return arr
 
 def calculate_features(img_path,img_path_cb,bins = 64, thresh = 0.01):
-
 
     ## calculate bin values for orginal image
     rgb_og,luv_og = load_rgb_luv(img_path)
@@ -154,7 +149,6 @@ def calculate_features(img_path,img_path_cb,bins = 64, thresh = 0.01):
     ## calculate histogram difference
     gh = ((H_og_norm-H_cb_norm)**2).sum()**0.5
 
-
     ### calculate edge difference
     result_og = normalize_max_min(ndimage.sobel(lumin_og))
     e_og = result_og.mean()
@@ -162,26 +156,19 @@ def calculate_features(img_path,img_path_cb,bins = 64, thresh = 0.01):
     e_cb = result_cb.mean()
     ge = abs((e_og - e_cb) / e_og)
 
-
     ### calculate by pixel rgb color difference
-    
-
     dij = ((rgb_og-rgb_cb)**2).sum(2)
     cij = (dij>thresh).astype(int)
     B = cij.sum()
     gp = (dij * cij).sum()/B
+
     return gh,ge,gp
-
-
-# img_path = "paper_image/paper1_imgs/-003.jpeg"
-# output_dir = "score_test/"
-# model_file = 'finalized_model.sav'
-
 
 os.system("mkdir -p " + output_dir  )
 prefix = img_path.split('/')[-1].split('.')[0]
 img_path_cb = output_dir + '/'+prefix+"_cb.jpeg"
 k = 7
+
 process_one_file(img_path,img_path_cb)
 extract_key_colors(img_path,prefix,output_dir,k)
 
@@ -212,7 +199,6 @@ dist_shrink_weighted = (dist_shrink*weights).reshape(1,21).sum(1)/(weights).resh
 dist_2d = dist_shrink.reshape(1,21)
 
 ### calculate gh, ge, gp
-
 gh_list =[]
 ge_list = []
 gp_list = []
@@ -229,7 +215,6 @@ X = pd.DataFrame({'x1':dist_2d.mean(1),
                          'x7':gp_list,
                   }).values
 
-
 clf = pickle.load(open(model_file, 'rb'))
 y_pred = clf.predict(X)
 y_pred = y_pred[0]
@@ -245,14 +230,4 @@ else:
     print(s)
     with open(output_dir+'/prediction.txt','w') as f:
         f.write(s)
-
-
-
-
-
-        
-
-
-
-
 
